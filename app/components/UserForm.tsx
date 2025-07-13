@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { User } from "../providers/UserProvider";
 import {
     Modal,
@@ -16,31 +16,42 @@ import {
     useToast
 } from "@chakra-ui/react";
 
-export const UserForm = ({ saveUser }: { saveUser: (user: User) => void }) => {
-    const { isOpen, onClose } = useDisclosure({ isOpen: true });
+export const UserForm = ({ saveUser, editingUser }: {
+    saveUser: (user: User) => void,
+    editingUser: boolean
+}) => {
+    const { isOpen, onClose, onOpen } = useDisclosure({ isOpen: true });
     const [name, setName] = useState("");
     const [jobTitle, setJobTitle] = useState("");
     const [editing, setEditing] = useState(false);
-    // const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const toast = useToast();
 
     const handleSave = () => {
         const newUser: User = { name, jobTitle };
-        // setUser(newUser);
+        setUser(newUser);
         saveUser(newUser);
         setEditing(false);
         onClose();
         toast({ title: 'User info saved.', status: 'success', duration: 2000 });
     };
 
-    // const handleEdit = () => {
-    //     if (user) {
-    //         setName(user.name);
-    //         setJobTitle(user.jobTitle);
-    //         setEditing(true);
-    //         onOpen();
-    //     }
-    // };
+    const handleEdit = (parsedUser: User) => {
+        if (parsedUser) {
+            setName(parsedUser.name);
+            setJobTitle(parsedUser.jobTitle);
+            setEditing(true);
+            onOpen();
+        }
+    };
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (editingUser && storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            handleEdit(parsedUser);
+        }
+    }, []);
 
     return (
         <Modal isOpen={isOpen}

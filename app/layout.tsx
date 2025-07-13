@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
+import { UserProvider } from "./providers/UserProvider";
+import { ApolloProvider } from "./providers/ApolloProvider";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 
 import "./globals.css";
-
-import { UserProvider } from "./providers/UserProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,15 +17,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <Flex as="body" minH="100vh" flexDirection="column">
         <ChakraProvider>
           <UserProvider>
-            {children}
+            <ApolloProvider>
+              <Header />
+              {children}
+              <Footer />
+            </ApolloProvider>
           </UserProvider>
         </ChakraProvider>
-      </body>
+      </Flex>
     </html>
   );
 }
