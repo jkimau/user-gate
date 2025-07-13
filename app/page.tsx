@@ -1,14 +1,10 @@
-import Image from "next/image";
+"use client";
 
 export default function Home() {
+  console.log("home page loaded");
   return (
-    <>
-      <main>
-        <h1>Home</h1>
-      </main>
-      <footer>
-        Footer
-      </footer>
-    </>
+    <div>
+      <h1>Home asdfasdas</h1>
+    </div>
   );
 }
