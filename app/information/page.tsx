@@ -6,6 +6,18 @@ import { Flex, Button } from "@chakra-ui/react";
 import { GET_ANIME_LIST_QUERY } from "../graphql/getAnimeList";
 import { AnimeCard } from "../components/AnimeCard";
 
+type Anime = {
+    id: string;
+    title: {
+        romaji: string;
+        english?: string;
+    };
+    description: string;
+    coverImage: {
+        large: string;
+    };
+};
+
 const PER_PAGE = 5;
 
 const Information = () => {
@@ -26,7 +38,7 @@ const Information = () => {
                     <div>No anime found.</div>
                 ) : (
                     <Flex wrap="wrap" justifyContent="center" gap={4}>
-                        {media.map((anime: any) => (
+                        {media.map((anime: Anime) => (
                             <AnimeCard
                                 key={anime.id}
                                 id={anime.id}

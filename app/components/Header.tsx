@@ -1,6 +1,6 @@
 "use client";
 
-import { User, useUser } from "@/providers/UserProvider";
+import { useUser } from "@/providers/UserProvider";
 import { Button, Flex, Link } from "@chakra-ui/react"
 
 export const Header = () => {

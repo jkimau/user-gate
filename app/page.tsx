@@ -12,7 +12,7 @@ export default function Home() {
     if (!user) {
       throw new Error("User must be provided to Home component");
     }
-  }, []);
+  }, [user]);
 
   return (
     <Flex flex="1" alignItems="center" justifyContent="center">

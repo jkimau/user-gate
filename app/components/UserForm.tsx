@@ -24,34 +24,28 @@ export const UserForm = ({ saveUser, editingUser }: {
     const [name, setName] = useState("");
     const [jobTitle, setJobTitle] = useState("");
     const [editing, setEditing] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
     const toast = useToast();
 
     const handleSave = () => {
         const newUser: User = { name, jobTitle };
-        setUser(newUser);
         saveUser(newUser);
         setEditing(false);
         onClose();
         toast({ title: 'User info saved.', status: 'success', duration: 2000 });
     };
 
-    const handleEdit = (parsedUser: User) => {
-        if (parsedUser) {
-            setName(parsedUser.name);
-            setJobTitle(parsedUser.jobTitle);
-            setEditing(true);
-            onOpen();
-        }
-    };
-
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (editingUser && storedUser) {
             const parsedUser = JSON.parse(storedUser);
-            handleEdit(parsedUser);
+            if (parsedUser) {
+                setName(parsedUser.name);
+                setJobTitle(parsedUser.jobTitle);
+                setEditing(true);
+                onOpen();
+            }
         }
-    }, []);
+    }, [editingUser, onOpen]);
 
     return (
         <Modal isOpen={isOpen}

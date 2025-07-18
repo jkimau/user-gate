@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const GET_ANIME_LIST_QUERY = gql`
   query GetAnimeList($page: Int!, $perPage: Int!) {
